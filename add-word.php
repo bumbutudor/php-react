@@ -9,20 +9,14 @@ require 'db_connect.php';
 
 // POST DATA
 $data = json_decode(file_get_contents("php://input"));
-echo $data;
 
-if( isset($data->cuvant) 
-	&& isset($data->predefinitie)
-	&& isset($data->definitie) 
-	&& !empty(trim($data->cuvant))
-	&& !empty(trim($data->predefinitie))
-	&& !empty(trim($data->definitie))	
-	){
-    $cuvant = mysqli_real_escape_string($db_conn, trim($data->cuvant));
-    $predefinitie = mysqli_real_escape_string($db_conn, trim($data->predefinitie));
-	$definitie = mysqli_real_escape_string($db_conn, trim($data->definitie));
+if(isset($data->dict_cuvant) && isset($data->dict_predefinitie) && isset($data->dict_definitie) && !empty(trim($data->dict_cuvant)) && !empty(trim($data->dict_predefinitie)) && !empty(trim($data->dict_definitie)))
+{
+    $cuvant = mysqli_real_escape_string($db_conn, trim($data->dict_cuvant));
+    $predefinitie = mysqli_real_escape_string($db_conn, trim($data->dict_predefinitie));
+	$definitie = mysqli_real_escape_string($db_conn, trim($data->dict_definitie));
     
-	$insertWord = mysqli_query($db_conn,"INSERT INTO `cuvinte`(`cuvant`,`predefinitie`, `definitie`, `dictionar_id`, `lexicograf_id` ) VALUES('$cuvant','$predefinitie', '$definitie', '1', '1')");
+	$insertWord = mysqli_query($db_conn,"INSERT INTO `cuvinte`(`cuvant`,`predefinitie`,`definitie`) VALUES('$cuvant','$predefinitie','$definitie')");
 	
 	if($insertWord){
 		$last_id = mysqli_insert_id($db_conn);
